@@ -35,7 +35,9 @@ const timer = {
     if (this.isActive) {
       return;
     }
+
     this.isActive = true;
+
     setInterval(() => {
       const currentTime = Date.now();
       const deltaTime = selectedDates - currentTime;

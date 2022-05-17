@@ -29,17 +29,13 @@ const options = {
   },
 };
 
-flatpickr('#datetime-picker', options);
-
 const timer = {
   isActive: false,
   start() {
     if (this.isActive) {
       return;
     }
-
     this.isActive = true;
-
     setInterval(() => {
       const currentTime = Date.now();
       const deltaTime = selectedDates - currentTime;
@@ -79,3 +75,5 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
+
+flatpickr('#datetime-picker', options);

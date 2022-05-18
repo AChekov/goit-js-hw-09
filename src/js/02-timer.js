@@ -24,10 +24,14 @@ const options = {
       Notify.failure('Please choose a date in the future');
       return;
     }
-    selectedDates = selectedDates[0];
+    calendarValue(selectedDates[0]);
     btnStartRef.removeAttribute('disabled');
   },
 };
+
+function calendarValue(value) {
+  selectedDates = value;
+}
 
 const timer = {
   isActive: false,
@@ -41,7 +45,6 @@ const timer = {
       const deltaTime = selectedDates - Date.now();
       const componentsTimer = convertMs(deltaTime);
       updateTimerField(componentsTimer);
-      console.log(selectedDates);
     }, 1000);
   },
 };

@@ -8,7 +8,7 @@ const hourRef = document.querySelector('[data-hours]');
 const minRef = document.querySelector('[data-minutes]');
 const secRef = document.querySelector('[data-seconds]');
 
-let selectedDates = null;
+let selectedDates = 0;
 
 btnStartRef.setAttribute('disabled', 'disabled');
 
@@ -35,14 +35,13 @@ const timer = {
     if (this.isActive) {
       return;
     }
-
     this.isActive = true;
 
     setInterval(() => {
-      const currentTime = Date.now();
-      const deltaTime = selectedDates - currentTime;
+      const deltaTime = selectedDates - Date.now();
       const componentsTimer = convertMs(deltaTime);
       updateTimerField(componentsTimer);
+      console.log(selectedDates);
     }, 1000);
   },
 };
@@ -56,12 +55,9 @@ function updateTimerField({ days, hours, minutes, seconds }) {
   hourRef.textContent = `${hours}`;
   minRef.textContent = `${minutes}`;
   secRef.textContent = `${seconds}`;
-  console.log(`${days} : ${hours} : ${minutes} : ${seconds}`);
 }
 
 const addLeadingZero = value => String(value).padStart(2, '0');
-
-// console.log(addLeadingZero);
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time

@@ -8,6 +8,7 @@ const hourRef = document.querySelector('[data-hours]');
 const minRef = document.querySelector('[data-minutes]');
 const secRef = document.querySelector('[data-seconds]');
 
+let timerId = 0;
 let selectedDates = 0;
 
 btnStartRef.setAttribute('disabled', 'disabled');
@@ -21,13 +22,16 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0] <= options.defaultDate) {
+      btnStartRef.setAttribute('disabled', 'disabled');
       Notify.failure('Please choose a date in the future');
-      return;
+    } else {
+      calendarValue(selectedDates[0]);
+      btnStartRef.removeAttribute('disabled');
     }
-    calendarValue(selectedDates[0]);
-    btnStartRef.removeAttribute('disabled');
   },
 };
+
+flatpickr('#datetime-picker', options);
 
 function calendarValue(value) {
   selectedDates = value;
@@ -41,9 +45,14 @@ const timer = {
     }
     this.isActive = true;
 
-    setInterval(() => {
+    timerId = setInterval(() => {
       const deltaTime = selectedDates - Date.now();
       const componentsTimer = convertMs(deltaTime);
+
+      if (deltaTime < 1000) {
+        clearInterval(timerId);
+        this.isActive = false;
+      }
       updateTimerField(componentsTimer);
     }, 1000);
   },
@@ -76,5 +85,3 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
-
-flatpickr('#datetime-picker', options);
